@@ -22,7 +22,15 @@ const server = app.listen(process.env.PORT || 8000, () => {
 connectToDB()
 
 // add midllwares
-app.use(cors())
+if (process.env.NODE_ENV !== 'production') {
+	app.use(
+		cors({
+			origin: ['http://localhost:3000'],
+			credentials: true,
+		})
+	)
+}
+
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(
@@ -31,6 +39,9 @@ app.use(
 		store: MongoStore.create(mongoose.connection),
 		resave: false,
 		saveUninitialized: false,
+		cookie: {
+			secure: process.env.NODE_ENV == 'production',
+		},
 	})
 )
 
