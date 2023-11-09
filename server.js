@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 app.use('/api/', adsRoutes) // add ads routes to server
-// app.use('/api/auth', usersRoutes) // add users routes to server
+app.use('/api/auth', usersRoutes) // add users routes to server
 
 app.use((req, res) => {
 	res.status(404).send({ message: 'Not found...' })
