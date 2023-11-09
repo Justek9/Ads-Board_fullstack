@@ -6,8 +6,9 @@ const dotenv = require('dotenv').config()
 const path = require('path')
 
 // import routes
-const adsRoutes = require("./routes/ads.routes")
+const adsRoutes = require('./routes/ads.routes')
 const usersRoutes = require('./routes/users.routes')
+const authRoutes = require('./routes/auth.routes')
 
 // start express server
 const app = express()
@@ -25,6 +26,7 @@ app.use(express.json())
 
 app.use('/api/', adsRoutes) // add ads routes to server
 app.use('/api/auth', usersRoutes) // add users routes to server
+app.use('/api/auth', authRoutes) // add auth routes to server
 
 app.use((req, res) => {
 	res.status(404).send({ message: 'Not found...' })
