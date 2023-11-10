@@ -1,12 +1,16 @@
 const User = require('../models/Users.model')
 const bcrypt = require('bcryptjs')
+const getImageFileType = require('../utils/getImageFileType')
+const fs = require('fs')
 
 // register new User
 exports.register = async (req, res) => {
 	try {
 		let { login, password, tel } = req.body
-		const avatar = req.file.filename
 		tel = Number(tel)
+		const fileType = req.file ? await getImageFileType(req.file) : 'unknokwn'
+		const avatar = req.file.filename
+
 		if (
 			login &&
 			password &&
@@ -14,11 +18,15 @@ exports.register = async (req, res) => {
 			tel &&
 			typeof login === 'string' &&
 			typeof password === 'string' &&
-			typeof avatar === 'string' &&
-			typeof tel === 'string'
+			['image/png', 'image/jpeg', 'image/gif'].includes(fileType) &&
+			typeof tel === 'number' &&
+			req.file.size <= 1048576
 		) {
 			const userWithLogin = await User.findOne({ login })
 			if (userWithLogin) {
+				// delete photo from uploads folder
+				const path = `public/uploads/${avatar}`
+				fs.unlinkSync(path)
 				res.status(409).send({ message: 'User with such login already exists' })
 				return
 			}
