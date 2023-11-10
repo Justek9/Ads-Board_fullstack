@@ -73,6 +73,7 @@ exports.edit = async (req, res) => {
 		const { title, text, date, src, location, author } = req.body
 		const id = req.params.id
 		const ad = await Ads.findById(id).populate('user')
+	
 		if (ad) {
 			await Ads.updateOne({ _id: id }, { $set: { title, text, date, src, location, author } })
 		}
