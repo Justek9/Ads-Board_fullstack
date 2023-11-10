@@ -45,6 +45,7 @@ app.use(
 	})
 )
 
+// add routes
 app.use('/api/', adsRoutes) // add ads routes to server
 app.use('/api/auth', usersRoutes) // add users routes to server
 app.use('/api/auth', authRoutes) // add auth routes to server
@@ -54,5 +55,5 @@ app.use((req, res) => {
 })
 
 // Serve static files from the React app
-// app.use(express.static(path.join(__dirname, '/public')))
+app.use(express.static(path.join(__dirname, '/public')))
 // app.use(express.static(path.join(__dirname, '/client/build')))

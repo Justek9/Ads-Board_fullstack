@@ -4,7 +4,9 @@ const bcrypt = require('bcryptjs')
 // register new User
 exports.register = async (req, res) => {
 	try {
-		const { login, password, avatar, tel } = req.body
+		let { login, password, tel } = req.body
+		const avatar = req.file.filename
+		tel = Number(tel)
 		if (
 			login &&
 			password &&
@@ -12,18 +14,17 @@ exports.register = async (req, res) => {
 			tel &&
 			typeof login === 'string' &&
 			typeof password === 'string' &&
-			typeof avatar === string &&
-			typeof tel === 'number'
+			typeof avatar === 'string' &&
+			typeof tel === 'string'
 		) {
 			const userWithLogin = await User.findOne({ login })
 			if (userWithLogin) {
-				res.status(409).send({ message: 'User with sucj login already exists' })
+				res.status(409).send({ message: 'User with such login already exists' })
 				return
 			}
-
-			const newUser = new User({ login, password: await bcrypt.hasj(password, 10), avatar, tel })
+			const newUser = new User({ login, password: await bcrypt.hash(password, 10), avatar, tel })
 			await newUser.save()
-			res.status(201).send({ message: 'User created' + '' + newUser.login })
+			res.status(201).send({ message: 'User created: ' + newUser.login })
 		} else res.status(400).send({ message: 'Bad request' })
 	} catch (err) {
 		res.status(500).json(err + '')
@@ -56,7 +57,11 @@ exports.login = async (req, res) => {
 }
 
 // logout user
-exports.logout = (req, res) => {
-	req.session.destroy()
-	res.send({ message: 'You have been logged out successfully' })
+exports.logout = async (req, res) => {
+	try {
+		await req.session.destroy()
+		res.send({ message: 'You have been logged out successfully' })
+	} catch (err) {
+		res.status(401).json({ message: err.message })
+	}
 }
