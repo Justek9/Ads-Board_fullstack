@@ -1,6 +1,7 @@
 const Ads = require('../models/Ads.model')
 const getImageFileType = require('../utils/getImageFileType')
 const validateAds = require('../utils/validateAds')
+const escape = require('../utils/escapeFunc')
 const fs = require('fs')
 
 // load all ads
@@ -29,7 +30,6 @@ exports.getById = async (req, res) => {
 exports.getBySearchPhrase = async (req, res) => {
 	try {
 		const searchParams = req.params.searchPhrase
-		// console.log(searchParams)
 		const ads = await Ads.find({
 			$or: [
 				{ title: { $regex: searchParams, $options: 'i' } },
@@ -48,6 +48,9 @@ exports.getBySearchPhrase = async (req, res) => {
 exports.add = async (req, res) => {
 	try {
 		let { title, text, date, location, user, price } = req.body
+		title = escape(title)
+		text = escape(text)
+		location = escape(location)
 		const src = req.file.filename
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknokwn'
 		price = Number(price)
@@ -82,22 +85,24 @@ exports.delete = async (req, res) => {
 exports.edit = async (req, res) => {
 	try {
 		const { title, text, date, location, user, price } = req.body
+		title = escape(title)
+		text = escape(text)
+		location = escape(location)
 		const src = req.file.filename
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknokwn'
 		const id = req.params.id
 
 		const ad = await Ads.findById(id).populate('user')
-		console.log(ad)
 
 		// Delete the old image
 		if (req.file) {
 			const path = `public/uploads/${ad.src}`
 			fs.unlinkSync(path)
 		}
-
+		// change add if data validated
 		if (ad && validateAds(title, text, date, location, user, price, fileType)) {
 			await ad.updateOne({ $set: { title, text, date, src, location, user, price } })
-			res.send({ message: 'ok' })
+			res.send({ message: 'Ad changed' })
 		}
 	} catch (err) {
 		res.status(500).json(err + '')
