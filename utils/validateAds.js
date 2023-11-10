@@ -1,18 +1,20 @@
-const validateAds = (title, text, date, location, author, fileType, src) => {
+const validateAds = (title, text, date, location, user, price, fileType) => {
+	price = Number(price)
+
 	if (
 		title &&
 		text &&
 		date &&
 		location &&
-		author &&
-		src &&
+		user &&
+		price &&
 		['image/png', 'image/jpeg', 'image/gif'].includes(fileType) &&
 		typeof title === 'string' &&
 		typeof text === 'string' &&
-		typeof date === 'date' &&
+		typeof date === 'string' &&
 		typeof location === 'string' &&
-		typeof author === 'string' &&
-		typeof src === 'string' &&
+		typeof user === 'string' &&
+		typeof price === 'number' &&
 		title.length < 50 &&
 		title.length > 10 &&
 		text.length > 20 &&

@@ -1,6 +1,7 @@
 const Ads = require('../models/Ads.model')
 const getImageFileType = require('../utils/getImageFileType')
 const validateAds = require('../utils/validateAds')
+const fs = require('fs')
 
 // load all ads
 exports.getAll = async (req, res) => {
@@ -46,14 +47,17 @@ exports.getBySearchPhrase = async (req, res) => {
 // add new ad
 exports.add = async (req, res) => {
 	try {
-		const { title, text, date, location, author } = req.body
+		let { title, text, date, location, user, price } = req.body
 		const src = req.file.filename
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknokwn'
+		price = Number(price)
 
-		if (validateAds(title, text, date, location, author, fileType, src)) {
-			const newAd = new Ads({ title, text, date, src, location, author })
-			await newAd.save()
-			res.json(newAd)
+		if (validateAds(title, text, date, location, user, price, fileType)) {
+			{
+				const newAd = new Ads({ title, text, date, src, location, user, price })
+				await newAd.save()
+				res.json(newAd)
+			}
 		}
 	} catch (err) {
 		res.status(500).json(err + '')
@@ -77,12 +81,13 @@ exports.delete = async (req, res) => {
 // edit one ad by its id
 exports.edit = async (req, res) => {
 	try {
-		const { title, text, date, location, author } = req.body
+		const { title, text, date, location, user, price } = req.body
 		const src = req.file.filename
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknokwn'
 		const id = req.params.id
 
 		const ad = await Ads.findById(id).populate('user')
+		console.log(ad)
 
 		// Delete the old image
 		if (req.file) {
@@ -90,10 +95,10 @@ exports.edit = async (req, res) => {
 			fs.unlinkSync(path)
 		}
 
-		if (ad && validateAds(title, text, date, location, author, fileType, src)) {
-			await Ads.updateOne({ _id: id }, { $set: { title, text, date, src, location, author } })
+		if (ad && validateAds(title, text, date, location, user, price, fileType)) {
+			await ad.updateOne({ $set: { title, text, date, src, location, user, price } })
+			res.send({ message: 'ok' })
 		}
-		res.send({ message: 'ok' })
 	} catch (err) {
 		res.status(500).json(err + '')
 	}
