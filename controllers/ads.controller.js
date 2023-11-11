@@ -84,7 +84,7 @@ exports.delete = async (req, res) => {
 // edit one ad by its id
 exports.edit = async (req, res) => {
 	try {
-		const { title, text, date, location, user, price } = req.body
+		let { title, text, date, location, user, price } = req.body
 		title = escape(title)
 		text = escape(text)
 		location = escape(location)
@@ -99,7 +99,7 @@ exports.edit = async (req, res) => {
 			const path = `public/uploads/${ad.src}`
 			fs.unlinkSync(path)
 		}
-		// change add if data validated
+		// change ad if data validated
 		if (ad && validateAds(title, text, date, location, user, price, fileType)) {
 			await ad.updateOne({ $set: { title, text, date, src, location, user, price } })
 			res.send({ message: 'Ad changed' })

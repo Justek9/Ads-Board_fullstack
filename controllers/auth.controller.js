@@ -2,12 +2,14 @@ const User = require('../models/Users.model')
 const bcrypt = require('bcryptjs')
 const getImageFileType = require('../utils/getImageFileType')
 const fs = require('fs')
+const escape = require('../utils/escapeFunc')
 
 // register new User
 exports.register = async (req, res) => {
 	try {
 		let { login, password, tel } = req.body
 		tel = Number(tel)
+		login = escape(login)
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknokwn'
 		const avatar = req.file.filename
 
