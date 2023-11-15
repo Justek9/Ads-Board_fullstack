@@ -1,8 +1,12 @@
-import { API_URL } from '../config';
+import { API_URL } from '../config'
 
 // selectors
 export const getAllAds = ({ ads }) => {
 	return ads
+}
+
+export const getAdbyId = ({ ads }, id) => {
+	return ads.filter(ad => ad._id === id)
 }
 
 // actions
