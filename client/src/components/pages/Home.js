@@ -1,14 +1,9 @@
-import AdSummary from '../features/AdSummary'
+import AllAds from '../features/AllAds'
 
 const Home = () => {
 	return (
 		<div className='d-flex justify-content-between flex-wrap'>
-			<AdSummary></AdSummary>
-			<AdSummary></AdSummary>
-			<AdSummary></AdSummary>
-			<AdSummary></AdSummary>
-		
-		
+			<AllAds />
 		</div>
 	)
 }

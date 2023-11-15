@@ -1,14 +1,15 @@
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import styles from './AdSummary.module.scss'
+import { IMGS_URL } from '../../config'
 
-const AdSummary = () => {
+const AdSummary = ({ ad }) => {
 	return (
 		<Card className={styles.card}>
-			<Card.Img variant='top' src='holder.js/100px180' />
+			<Card.Img variant='top' src={IMGS_URL + ad.photo} />
 			<Card.Body>
-				<Card.Title>Title</Card.Title>
-				<Card.Text>Lorem ipsum lorem ipsum</Card.Text>
+				<Card.Title>{ad.title}</Card.Title>
+				<Card.Text>{ad.location}</Card.Text>
 				<Button variant='secondary'>Read more</Button>
 			</Card.Body>
 		</Card>
