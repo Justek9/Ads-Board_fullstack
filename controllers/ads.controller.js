@@ -7,8 +7,8 @@ const fs = require('fs')
 // load all ads
 exports.getAll = async (req, res) => {
 	try {
-		const ad = await Ads.find().populate('user')
-		res.json(ad)
+		const ads = await Ads.find().populate('user')
+		res.json(ads)
 	} catch (err) {
 		res.status(500).json({ message: err.message })
 	}

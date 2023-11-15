@@ -8,6 +8,7 @@ const Home = () => {
 			<AdSummary></AdSummary>
 			<AdSummary></AdSummary>
 		
+		
 		</div>
 	)
 }
