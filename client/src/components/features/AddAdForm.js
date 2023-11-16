@@ -1,5 +1,7 @@
+import AdForm from '../common/AdForm'
+
 const AddAdForm = () => {
-	return <div>Test</div>
+	return <AdForm />
 }
 
 export default AddAdForm
