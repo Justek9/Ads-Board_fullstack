@@ -6,6 +6,7 @@ import { fetchAds } from './redux/adsRedux'
 import { useDispatch } from 'react-redux'
 import { Routes, Route } from 'react-router-dom'
 import SingleAd from './components/features/SingleAd'
+import AddAd from './components/pages/AddAd'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -19,6 +20,7 @@ const App = () => {
 			<Routes>
 				<Route path='/' element={<Home />}></Route>
 				<Route path='api/ads/:id' element={<SingleAd />}></Route>
+				<Route path='api/ad/add' element={<AddAd />}></Route>
 			</Routes>
 		</Container>
 	)
