@@ -3,12 +3,13 @@ import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import { useState } from 'react'
 
-const AdForm = () => {
-	const [title, setTitle] = useState('')
-	const [text, setText] = useState('')
-	const [price, setPrice] = useState('')
-	const [location, setLocation] = useState('')
-	const [image, setImage] = useState('')
+const AdForm = ({ actionText, ...props }) => {
+	console.log(props)
+	const [title, setTitle] = useState(props.title || '')
+	const [text, setText] = useState(props.text || '')
+	const [price, setPrice] = useState(props.price || '')
+	const [location, setLocation] = useState(props.location || '')
+	// const [image, setImage] = useState(props.image || '')
 
 	return (
 		<Form>
@@ -45,15 +46,15 @@ const AdForm = () => {
 					<Form.Control type='number' className='w-75' value={price} onChange={e => setPrice(e.target.value)} />
 				</Form.Group>
 			</Col>
-			<Col xs={6} md={3}>
+			{/* <Col xs={6} md={3}>
 				<Form.Group className='mb-3 d-flex flex-row align-items-center justify-content-between'>
 					<Form.Label className='mr-2'>Img:</Form.Label>
 					<Form.Control type='file' className='w-75' value={image} onChange={e => setImage(e.target.value)} />
 				</Form.Group>
-			</Col>
+			</Col> */}
 
 			<Button variant='success' type='submit'>
-				add
+				{actionText}
 			</Button>
 		</Form>
 	)

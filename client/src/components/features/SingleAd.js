@@ -1,6 +1,6 @@
 import { getAdbyId } from '../../redux/adsRedux'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import { IMGS_URL } from '../../config'
@@ -13,8 +13,6 @@ const SingleAd = () => {
 	const ad = useSelector(state => getAdbyId(state, id))[0]
 	const [modalShow, setModalShow] = useState(false)
 
-	console.log(ad.user)
-
 	return (
 		<Card className={styles.card}>
 			<Card.Img variant='top' src={IMGS_URL + ad.src} className={styles.img} />
@@ -26,7 +24,7 @@ const SingleAd = () => {
 				<Card.Text>Location: {ad.location}</Card.Text>
 				<Card.Text>Published date: {ad.date}</Card.Text>
 				<div className={styles.btnContaier}>
-					<Button className={styles.btn} variant='primary'>
+					<Button className={styles.btn} variant='primary' as={NavLink} to={`/api/edit/${id}`}>
 						Edit
 					</Button>
 					<Button className={styles.btn} variant='danger' onClick={() => setModalShow(true)}>

@@ -10,12 +10,12 @@ router.get('/ads/:id', ads.getById)
 router.get('/ads/search/:searchPhrase', ads.getBySearchPhrase)
 // router.post('/ads', authMiddlware, imageUpload.single('src'), ads.add)
 // router.delete('/ads/:id', authMiddlware, ads.delete)
-// router.put('/ads/:id', authMiddlware, imageUpload.single('src'), ads.edit)
+// router.put('/edit/:id', authMiddlware, imageUpload.single('src'), ads.edit)
 
 // for tests - without auth middlware:
 
 router.post('/ads', imageUpload.single('src'), ads.add)
 router.delete('/ads/:id', ads.delete)
-router.put('/ads/:id', imageUpload.single('src'), ads.edit)
+router.put('/edit/:id', imageUpload.single('src'), ads.edit)
 
 module.exports = router
