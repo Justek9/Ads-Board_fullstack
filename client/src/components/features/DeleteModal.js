@@ -1,15 +1,17 @@
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { deleteAdRequest } from '../../redux/adsRedux'
 
 const DeleteModal = props => {
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
 	const handleRemoveAd = e => {
-        // console.log(props.id);
 		dispatch(deleteAdRequest(props.id))
 		props.onHide()
+		navigate('/')
 	}
 
 	return (

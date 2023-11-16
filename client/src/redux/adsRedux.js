@@ -23,6 +23,9 @@ export const deleteAdRequest = id => {
 		console.log(`${API_URL}/ads/${id}`)
 		const options = {
 			method: 'DELETE',
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			},
 		}
 		fetch(`${API_URL}/ads/${id}`, options)
 			.then(() => {
@@ -54,7 +57,6 @@ const adsReducer = (statePart = [], action) => {
 		case LOAD_ADS:
 			return [...action.payload]
 		case DELETE_AD:
-			console.log('delete:', action.payload)
 			return statePart.filter(ad => ad._id !== action.payload)
 
 		default:

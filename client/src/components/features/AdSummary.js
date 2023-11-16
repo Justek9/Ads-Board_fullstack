@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom'
 const AdSummary = ({ ad }) => {
 	return (
 		<Card className={styles.card}>
-			<Card.Img variant='top' src={IMGS_URL + ad.src} />
+			<Card.Img variant='top' src={IMGS_URL + ad.src} className={styles.img} />
 			<Card.Body>
 				<Card.Title>{ad.title}</Card.Title>
 				<Card.Text>{ad.location}</Card.Text>

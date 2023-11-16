@@ -61,7 +61,7 @@ exports.add = async (req, res) => {
 				await newAd.save()
 				res.json(newAd)
 			}
-		}
+		} else res.status(500).json('validation failed')
 	} catch (err) {
 		res.status(500).json(err + '')
 	}
@@ -71,10 +71,12 @@ exports.add = async (req, res) => {
 exports.delete = async (req, res) => {
 	try {
 		const id = req.params.id
-		console.log(req.params.id)
 		const ad = await Ads.findById(id)
 		if (ad) {
 			await Ads.deleteOne({ _id: id })
+			// delete photo
+			const path = `public/uploads/${ad.src}`
+			fs.unlinkSync(path)
 			res.json({ message: 'OK' })
 		}
 	} catch (err) {
