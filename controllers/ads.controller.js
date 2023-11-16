@@ -71,6 +71,7 @@ exports.add = async (req, res) => {
 exports.delete = async (req, res) => {
 	try {
 		const id = req.params.id
+		console.log(req.params.id)
 		const ad = await Ads.findById(id)
 		if (ad) {
 			await Ads.deleteOne({ _id: id })
