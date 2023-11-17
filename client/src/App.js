@@ -9,6 +9,7 @@ import SingleAd from './components/features/SingleAd'
 import AddAd from './components/pages/AddAd'
 import EditAdForm from './components/features/EditAdForm'
 import LoginForm from './components/features/LoginForm'
+import RegisterForm from './components/features/RegisterForm'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -24,7 +25,8 @@ const App = () => {
 				<Route path='api/ads/:id' element={<SingleAd />}></Route>
 				<Route path='api/ad/add' element={<AddAd />}></Route>
 				<Route path='api/edit/:id' element={<EditAdForm />}></Route>
-				<Route path='api/login' element={<LoginForm />}></Route>
+				<Route path='login' element={<LoginForm />}></Route>
+				<Route path='register' element={<RegisterForm />}></Route>
 			</Routes>
 		</Container>
 	)
