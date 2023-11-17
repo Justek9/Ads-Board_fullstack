@@ -88,10 +88,12 @@ exports.delete = async (req, res) => {
 exports.edit = async (req, res) => {
 	try {
 		let { title, text, date, location, user, price } = req.body
+		console.log(req.file)
 		title = escape(title)
 		text = escape(text)
 		location = escape(location)
 		const src = req.file.filename
+		console.log('source:', src)
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknokwn'
 		const id = req.params.id
 
@@ -104,6 +106,7 @@ exports.edit = async (req, res) => {
 		}
 		// change ad if data validated
 		if (ad && validateAds(title, text, date, location, user, price, fileType)) {
+			console.log('jestem')
 			await ad.updateOne({ $set: { title, text, date, src, location, user, price } })
 			res.send({ message: 'Ad changed' })
 		}

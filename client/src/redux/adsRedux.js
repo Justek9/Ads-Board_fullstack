@@ -13,11 +13,28 @@ export const getAdbyId = ({ ads }, id) => {
 const createActionName = actionName => `api/ads/${actionName}`
 const LOAD_ADS = createActionName('LOAD_ADS')
 const DELETE_AD = createActionName('DELETE_AD')
+const EDIT_AD = createActionName('EDIT_AD')
 
 // action creators
 export const loadAds = payload => ({ type: LOAD_ADS, payload })
 export const deleteAd = payload => ({ type: DELETE_AD, payload })
+export const editAd = payload => ({ type: EDIT_AD, payload })
 
+export const editAdRequest = ad => {
+	console.log(ad);
+	return dispatch => {
+		const options = {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				...ad,
+			}),
+		}
+		fetch(`${API_URL}/edit/${ad.id}`, options).then(() => dispatch(editAd(ad, ad.id)))
+	}
+}
 export const deleteAdRequest = id => {
 	return dispatch => {
 		console.log(`${API_URL}/ads/${id}`)
@@ -58,6 +75,8 @@ const adsReducer = (statePart = [], action) => {
 			return [...action.payload]
 		case DELETE_AD:
 			return statePart.filter(ad => ad._id !== action.payload)
+		case EDIT_AD:
+			return statePart.map(ad => (ad._id === action.payload.id ? { ...ad, ...action.payload } : ad))
 
 		default:
 			return statePart

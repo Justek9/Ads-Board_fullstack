@@ -3,16 +3,29 @@ import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import { useState } from 'react'
 
-const AdForm = ({ actionText, ...props }) => {
-	console.log(props)
+const AdForm = ({ action, actionText, ...props }) => {
 	const [title, setTitle] = useState(props.title || '')
 	const [text, setText] = useState(props.text || '')
 	const [price, setPrice] = useState(props.price || '')
 	const [location, setLocation] = useState(props.location || '')
-	// const [image, setImage] = useState(props.image || '')
+	const [image, setImage] = useState(props.image || '')
+
+	let date = 'g'
+	let src = image
+	let user = 'justek'
+	let id = props.id
+
+	const handleImageChange = e => {
+		const file = e.target.files[0]
+		setImage(file)
+	}
+	const handleSubmit = event => {
+		event.preventDefault()
+		action({ title, text, price, location, src, id, date, user })
+	}
 
 	return (
-		<Form>
+		<Form onSubmit={handleSubmit}>
 			<Col xs={6} md={3}>
 				<Form.Group className='mb-3 d-flex flex-row align-items-center justify-content-between'>
 					<Form.Label>Title</Form.Label>
@@ -46,12 +59,12 @@ const AdForm = ({ actionText, ...props }) => {
 					<Form.Control type='number' className='w-75' value={price} onChange={e => setPrice(e.target.value)} />
 				</Form.Group>
 			</Col>
-			{/* <Col xs={6} md={3}>
+			<Col xs={6} md={3}>
 				<Form.Group className='mb-3 d-flex flex-row align-items-center justify-content-between'>
 					<Form.Label className='mr-2'>Img:</Form.Label>
-					<Form.Control type='file' className='w-75' value={image} onChange={e => setImage(e.target.value)} />
+					<Form.Control type='file' className='w-75' onChange={handleImageChange} />
 				</Form.Group>
-			</Col> */}
+			</Col>
 
 			<Button variant='success' type='submit'>
 				{actionText}
