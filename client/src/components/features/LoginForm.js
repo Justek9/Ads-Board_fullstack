@@ -3,12 +3,18 @@ import { Alert, Spinner } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { API_URL } from '../../config'
+import { loginUser } from '../../redux/userRedux'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
 	const [login, setLogin] = useState('')
 	const [password, setPassword] = useState('')
 	const [status, setStatus] = useState(null)
 	// null, 'loading', 'success', 'serverError', 'clientError'
+
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -25,6 +31,8 @@ const LoginForm = () => {
 			.then(res => {
 				if (res.status === 200) {
 					setStatus('success')
+					dispatch(loginUser({ login }))
+					navigate('/')
 				} else if (res.status === 400) {
 					setStatus('clientError')
 				} else if (res.status === 401) {
