@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom'
 import SingleAd from './components/features/SingleAd'
 import AddAd from './components/pages/AddAd'
 import EditAdForm from './components/features/EditAdForm'
+import LoginForm from './components/features/LoginForm'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -23,6 +24,7 @@ const App = () => {
 				<Route path='api/ads/:id' element={<SingleAd />}></Route>
 				<Route path='api/ad/add' element={<AddAd />}></Route>
 				<Route path='api/edit/:id' element={<EditAdForm />}></Route>
+				<Route path='api/login' element={<LoginForm />}></Route>
 			</Routes>
 		</Container>
 	)

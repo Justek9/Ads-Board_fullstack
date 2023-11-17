@@ -17,7 +17,7 @@ const NavBar = () => {
 				<Nav.Link className='text-white' as={NavLink} to='/'>
 					Sign Up
 				</Nav.Link>
-				<Nav.Link className='text-white' as={NavLink} to='/'>
+				<Nav.Link className='text-white' as={NavLink} to='/api/login'>
 					Login
 				</Nav.Link>
 			</Nav>
