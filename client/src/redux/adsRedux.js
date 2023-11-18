@@ -10,7 +10,7 @@ export const getAdbyId = ({ ads }, id) => {
 }
 
 // actions
-const createActionName = actionName => `api/ads/${actionName}`
+const createActionName = actionName => `app/ads/${actionName}`
 const LOAD_ADS = createActionName('LOAD_ADS')
 const DELETE_AD = createActionName('DELETE_AD')
 const EDIT_AD = createActionName('EDIT_AD')

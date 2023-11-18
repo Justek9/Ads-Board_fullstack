@@ -9,6 +9,7 @@ import SingleAd from './components/features/SingleAd'
 import AddAd from './components/pages/AddAd'
 import EditAdForm from './components/features/EditAdForm'
 import LoginForm from './components/features/LoginForm'
+import Logout from './components/features/Logout'
 import RegisterForm from './components/features/RegisterForm'
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
 				<Route path='api/ad/add' element={<AddAd />}></Route>
 				<Route path='api/edit/:id' element={<EditAdForm />}></Route>
 				<Route path='login' element={<LoginForm />}></Route>
+				<Route path='logout' element={<Logout />}></Route>
 				<Route path='register' element={<RegisterForm />}></Route>
 			</Routes>
 		</Container>
