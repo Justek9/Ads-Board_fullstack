@@ -88,6 +88,7 @@ exports.delete = async (req, res) => {
 exports.edit = async (req, res) => {
 	try {
 		let { title, text, date, location, user, price } = req.body
+		console.log(req.body);
 		console.log(req.file)
 		title = escape(title)
 		text = escape(text)

@@ -22,6 +22,7 @@ const RegisterForm = () => {
 		fd.append('avatar', avatar)
 		fd.append('tel', tel)
 
+		console.log(fd);
 		const options = {
 			method: 'POST',
 			body: fd,

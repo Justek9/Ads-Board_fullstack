@@ -11,6 +11,7 @@ import styles from './SingleAd.module.scss'
 const SingleAd = () => {
 	const { id } = useParams()
 	const ad = useSelector(state => getAdbyId(state, id))[0]
+	console.log(ad)
 	const [modalShow, setModalShow] = useState(false)
 
 	return (
@@ -20,9 +21,9 @@ const SingleAd = () => {
 				<Card.Title>{ad.title}</Card.Title>
 				<Card.Text>{ad.text}</Card.Text>
 				<Card.Text>Price: ${ad.price}</Card.Text>
-				<Card.Text>Seller: {ad.user}</Card.Text>
+				<Card.Text>Seller: {ad.user.login}</Card.Text>
 				<Card.Text>Location: {ad.location}</Card.Text>
-				<Card.Text>Published date: {ad.date}</Card.Text>
+				<Card.Text>Published date: {ad.date.substring(0, 10)}</Card.Text>
 				<div className={styles.btnContaier}>
 					<Button className={styles.btn} variant='primary' as={NavLink} to={`/api/edit/${id}`}>
 						Edit

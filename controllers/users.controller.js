@@ -3,12 +3,10 @@ const Users = require('../models/Users.model')
 // get all logged users
 exports.getLoggedUser = async (req, res) => {
 	try {
-		// const users = await Users.find()
-		// res.json(users)
+		if (req.session.user) {
+			res.json(req.session.user)
+		}
 	} catch (err) {
 		res.status(500).json({ message: err.message })
 	}
 }
-
-
-

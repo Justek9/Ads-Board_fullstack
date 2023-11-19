@@ -2,26 +2,49 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { editAd, editAdRequest } from '../../redux/adsRedux'
+import { API_URL } from '../../config'
 
 const AdForm = ({ action, actionText, ...props }) => {
 	const [title, setTitle] = useState(props.title || '')
 	const [text, setText] = useState(props.text || '')
 	const [price, setPrice] = useState(props.price || '')
 	const [location, setLocation] = useState(props.location || '')
-	const [image, setImage] = useState(props.image || '')
+	const [image, setImage] = useState(props.image || null)
 
 	let date = 'g'
 	let src = image
 	let user = 'justek'
 	let id = props.id
 
-	const handleImageChange = e => {
-		const file = e.target.files[0]
-		setImage(file)
-	}
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
+
 	const handleSubmit = event => {
 		event.preventDefault()
-		action({ title, text, price, location, src, id, date, user })
+		// action({ title, text, price, location, src, id, date, user })
+
+		const fd = new FormData()
+		fd.append('title', title)
+		fd.append('text', text)
+		fd.append('price', price)
+		fd.append('location', location)
+		fd.append('src', src)
+		fd.append('id', id)
+		fd.append('date', date)
+		fd.append('user', user)
+
+		const options = {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: fd,
+		}
+		fetch(`${API_URL}/edit/${id}`, options).then(() => console.log('ok'))
+		navigate('/')
 	}
 
 	return (
@@ -52,7 +75,7 @@ const AdForm = ({ action, actionText, ...props }) => {
 			</Form.Group>
 			<Form.Group className='mb-3 d-flex flex-row align-items-center justify-content-between'>
 				<Form.Label className='mr-2'>Img:</Form.Label>
-				<Form.Control type='file' className='w-75' onChange={handleImageChange} />
+				<Form.Control type='file' className='w-75' onChange={e => setImage(e.target.files[0])} />
 			</Form.Group>
 
 			<Button variant='success' type='submit'>

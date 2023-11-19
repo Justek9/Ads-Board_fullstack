@@ -10,8 +10,25 @@ const EditAdForm = () => {
 	const dispatch = useDispatch()
 
 	const handleSubmit = (ad, event) => {
-		dispatch(editAdRequest(ad))
-		navigate('/')
+	
+		// console.log(ad);
+		// const fd = new FormData()
+		// fd.append('title', ad.title)
+		// fd.append('text', ad.text)
+		// fd.append('price', ad.price)
+		// fd.append('location', ad.location)
+		// fd.append('src', ad.src)
+		// fd.append('id', ad.id)
+		// fd.append('date', ad.date)
+		// fd.append('user', ad.user)
+
+		// console.log(fd);
+
+
+
+
+		// dispatch(editAdRequest(fd))
+		// navigate('/')
 	}
 
 	if (!ad) return <Navigate to='/' />
