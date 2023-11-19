@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 const sessionSchema = new mongoose.Schema({
-    expires: { type: Date, required: true },
-    session: { type: String, required: true },
-});
+	_id: { type: String },
+	expires: { type: Date, required: true },
+	session: { type: String, required: true },
+})
 
-module.exports = mongoose.model('Session', sessionSchema);
+module.exports = mongoose.model('Session', sessionSchema)

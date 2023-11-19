@@ -7,7 +7,7 @@ const connectToDB = () => {
 
 	// connect to DB
 
-	mongoose.connect(uriDev, { useNewUrlParser: true, useUnifiedTopology: true })
+	mongoose.connect(uriProd, { useNewUrlParser: true, useUnifiedTopology: true })
 	const db = mongoose.connection
 
 	// on success

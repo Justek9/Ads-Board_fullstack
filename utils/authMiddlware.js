@@ -1,12 +1,12 @@
 const Session = require('../models/sessionModel')
 const authMiddleware = (req, res, next) => {
 	if (req.session.user) {
-		next()
-	} 
+		return next()
+	}
 
 	if (process.env.NODE_ENV !== 'production') {
 		Session.findOne().then((session, err) => {
-			if (err) {
+			if (err || !session) {
 				res.status(401).send({ message: 'You are not authorized' })
 			} else {
 				const sessionData = JSON.parse(session.session)
@@ -16,8 +16,8 @@ const authMiddleware = (req, res, next) => {
 				}
 
 				req.session.user = user
-				next()
-
+				req.sessionID = session._id
+				return next()
 			}
 		})
 	}

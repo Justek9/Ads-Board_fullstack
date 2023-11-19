@@ -42,6 +42,7 @@ app.use(
 		cookie: {
 			secure: process.env.NODE_ENV == 'production',
 		},
+		unset: 'destroy',
 	})
 )
 
@@ -51,7 +52,7 @@ app.use('/api/auth', usersRoutes) // add users routes to server
 app.use('/api/auth', authRoutes) // add auth routes to server
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '/public'))) 
+app.use(express.static(path.join(__dirname, '/public')))
 // app.use(express.static(path.join(__dirname, '/client/build')))
 
 app.use((req, res) => {
