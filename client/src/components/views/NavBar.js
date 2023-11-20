@@ -11,7 +11,7 @@ const NavBar = () => {
 	}
 
 	const user = useSelector(getUser)
-	
+
 	return (
 		<Navbar className='me-auto d-flex justify-content-between align-items-center bg-dark rounded mb-4'>
 			<Nav.Link className='text-white' as={NavLink} to='/' onClick={handleClick}>

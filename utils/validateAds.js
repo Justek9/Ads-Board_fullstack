@@ -8,7 +8,7 @@ const validateAds = (title, text, date, location, user, price, fileType) => {
 		location &&
 		user &&
 		price &&
-		['image/png', 'image/jpeg', 'image/gif'].includes(fileType) &&
+		['image/png', 'image/jpeg', 'image/gif', 'unknown'].includes(fileType) &&
 		typeof title === 'string' &&
 		typeof text === 'string' &&
 		typeof date === 'string' &&

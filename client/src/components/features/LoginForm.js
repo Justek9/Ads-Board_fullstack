@@ -26,12 +26,11 @@ const LoginForm = () => {
 			body: JSON.stringify({ login, password }),
 		}
 
-		setStatus('loadng')
+		setStatus('loading')
 		fetch(`${API_URL}/auth/login`, options)
 			.then(res => {
 				if (res.status === 200) {
 					setStatus('success')
-					dispatch(loginUser({ login }))
 					navigate('/')
 				} else if (res.status === 400) {
 					setStatus('clientError')
@@ -42,6 +41,21 @@ const LoginForm = () => {
 				}
 			})
 			.catch(err => setStatus('serverError'))
+
+		const options2 = {
+			method: 'GET',
+		}
+
+		fetch(`${API_URL}/auth/user`, options2)
+			.then(res => {
+				return res.json()
+			})
+			.then(user => {
+				dispatch(loginUser(user))
+			})
+			.catch(error => {
+				console.error(error)
+			})
 	}
 
 	return (

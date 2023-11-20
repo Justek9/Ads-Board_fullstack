@@ -7,12 +7,13 @@ import { IMGS_URL } from '../../config'
 import { useState } from 'react'
 import DeleteModal from './DeleteModal'
 import styles from './SingleAd.module.scss'
+import { getUser } from '../../redux/userRedux'
 
 const SingleAd = () => {
 	const { id } = useParams()
 	const ad = useSelector(state => getAdbyId(state, id))[0]
-	console.log(ad)
 	const [modalShow, setModalShow] = useState(false)
+	const user = useSelector(getUser)
 
 	return (
 		<Card className={styles.card}>

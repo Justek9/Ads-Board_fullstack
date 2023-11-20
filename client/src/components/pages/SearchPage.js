@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Spinner } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import { Alert, Spinner } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 import { API_URL } from '../../config'
-import { getAllAds } from '../../redux/adsRedux'
 import AdSummary from '../features/AdSummary'
 
 const SearchPage = () => {
 	const { searchPhrase } = useParams()
 	const [status, setStatus] = useState(null)
-	const [adsToShow, setAdsToShow] = useState(null)
+	const [adsToShow, setAdsToShow] = useState([])
 
 	useEffect(() => {
 		setStatus('loading')
@@ -19,20 +17,18 @@ const SearchPage = () => {
 		}
 		fetch(`${API_URL}/ads/search/${searchPhrase}`, options)
 			.then(res => {
-				if (res.status === 201) {
-					setStatus('success')
-				} else if (res.status === 400) {
-					setStatus('clientError')
-				} else if (res.status === 409) {
-					setStatus('loginError')
-				} else {
+				if (res.status !== 200) {
 					setStatus('serverError')
+				} else {
+					setStatus('')
+
+					return res.json()
 				}
-				return res.json()
 			})
 			.then(ads => setAdsToShow(ads))
-			.catch(err => console.log(err))
+			.catch(err => setStatus('serverError'))
 	}, [searchPhrase])
+	if (adsToShow.length === 0) return <p>Nothing matches your search....</p>
 
 	return (
 		<div className={'container'}>
@@ -42,17 +38,20 @@ const SearchPage = () => {
 					<span className='visually-hidden'>Loading...</span>
 				</Spinner>
 			)}
-			{!adsToShow && <p>Nothing matches your search....</p>}
 
-			{adsToShow && (
-				<div>
-					{adsToShow.map((ad, i) => (
-						<AdSummary key={i} ad={ad}></AdSummary>
-					))}
-				</div>
+			{status === 'serverError' && (
+				<Alert variant='danger'>
+					<Alert.Heading>Something went wrong...</Alert.Heading>
+					<p>Unexpected error...Try again!.</p>
+				</Alert>
 			)}
+
+			<div className='d-flex justify-content-between flex-wrap mt-4'>
+				{adsToShow.map((ad, i) => (
+					<AdSummary key={i} ad={ad}></AdSummary>
+				))}
+			</div>
 		</div>
 	)
 }
-
 export default SearchPage

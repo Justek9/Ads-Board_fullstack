@@ -24,8 +24,6 @@ const AddAndEditForm = ({ action, ...props }) => {
 	const clearStatusandNavigateToHomePage = () => {
 		setTimeout(() => {
 			setStatus(null)
-		}, 3000)
-		setTimeout(() => {
 			navigate('/')
 		}, 3000)
 	}
