@@ -3,22 +3,37 @@ import Form from 'react-bootstrap/Form'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { addAdRequest } from '../../redux/adsRedux'
+import { fetchAds } from '../../redux/adsRedux'
+import { API_URL } from '../../config'
+import { Alert, Spinner } from 'react-bootstrap'
 
-const AdAddForm = () => {
-	const [title, setTitle] = useState('')
-	const [text, setText] = useState('')
-	const [price, setPrice] = useState('')
-	const [location, setLocation] = useState('')
+const AddAndEditForm = ({ action, ...props }) => {
+	const [title, setTitle] = useState(props.title || '')
+	const [text, setText] = useState(props.text || '')
+	const [price, setPrice] = useState(props.price || '')
+	const [location, setLocation] = useState(props.location || '')
 	const [image, setImage] = useState(null)
-	const  date = new Date()
+	const [status, setStatus] = useState(null)
+	// null, 'loading', 'success', 'serverError',
+	const date = new Date()
 	const user = '6559b05a19363e4b65f20de1'
 
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
+	const clearStatusandNavigateToHomePage = () => {
+		setTimeout(() => {
+			setStatus(null)
+		}, 3000)
+		setTimeout(() => {
+			navigate('/')
+		}, 3000)
+	}
+
 	const handleSubmit = event => {
 		event.preventDefault()
+
+		setStatus('loading')
 
 		const fd = new FormData()
 		fd.append('title', title)
@@ -29,13 +44,44 @@ const AdAddForm = () => {
 		fd.append('date', date)
 		fd.append('user', user)
 
-		dispatch(addAdRequest(fd))
-		
-		navigate('/')
+		const options = {
+			method: action === 'Add' ? 'POST' : 'PUT',
+			body: fd,
+		}
+		fetch(action === 'Add' ? `${API_URL}/ads` : `${API_URL}/edit/${props.id}`, options)
+			.then(res => {
+				if (res.status === 200) {
+					setStatus('success')
+					clearStatusandNavigateToHomePage()
+					dispatch(fetchAds())
+				} else {
+					setStatus('serverError')
+				}
+			})
+			.catch(err => setStatus('serverError'))
 	}
 
 	return (
 		<Form onSubmit={handleSubmit}>
+			{status === 'success' && (
+				<Alert variant='success'>
+					<Alert.Heading>Success!</Alert.Heading>
+				</Alert>
+			)}
+
+			{status === 'serverError' && (
+				<Alert variant='danger'>
+					<Alert.Heading>Something went wrong...</Alert.Heading>
+					<p>Make sure all the fields are filled and try agai!.</p>
+				</Alert>
+			)}
+
+			{status === 'loading' && (
+				<Spinner animation='border' role='status'>
+					<span className='visually-hidden'>Loading...</span>
+				</Spinner>
+			)}
+
 			<Form.Group className='mb-3 d-flex flex-row align-items-center justify-content-between'>
 				<Form.Label>Title</Form.Label>
 				<Form.Control aria-label='Title' className='w-75' value={title} onChange={e => setTitle(e.target.value)} />
@@ -66,10 +112,10 @@ const AdAddForm = () => {
 			</Form.Group>
 
 			<Button variant='success' type='submit'>
-				Add
+				{action}
 			</Button>
 		</Form>
 	)
 }
 
-export default AdAddForm
+export default AddAndEditForm

@@ -1,10 +1,10 @@
-import AddAdForm from '../features/AddAdForm'
+import AddAndEditForm from '../features/AdAndEditForm'
 
 const AddAd = () => {
 	return (
 		<div>
 			<h3>Add new ad</h3>
-			<AddAdForm />
+			<AddAndEditForm action={'Add'} />
 		</div>
 	)
 }

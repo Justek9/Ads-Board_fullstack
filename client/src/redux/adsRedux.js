@@ -22,31 +22,6 @@ export const deleteAd = payload => ({ type: DELETE_AD, payload })
 export const editAd = payload => ({ type: EDIT_AD, payload })
 export const addAd = payload => ({ type: ADD_AD, payload })
 
-export const addAdRequest = ad => {
-	return dispatch => {
-		const options = {
-			method: 'POST',
-
-			body: ad,
-		}
-		// fetch(`${API_URL}/ads`, options).then(() => console.log('ok'))
-		fetch(`${API_URL}/ads`, options).then(() => dispatch(fetchAds()))
-	}
-}
-
-export const editAdRequest = ad => {
-	console.log(ad)
-	return dispatch => {
-		const options = {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: ad,
-		}
-		fetch(`${API_URL}/edit/${ad.id}`, options).then(() => dispatch(editAd(ad, ad.id)))
-	}
-}
 export const deleteAdRequest = id => {
 	return dispatch => {
 		console.log(`${API_URL}/ads/${id}`)

@@ -52,6 +52,7 @@ exports.add = async (req, res) => {
 		text = escape(text)
 		location = escape(location)
 		const src = req.file.filename
+		console.log(req.file.filename)
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknokwn'
 		price = Number(price)
 
@@ -86,15 +87,14 @@ exports.delete = async (req, res) => {
 
 // edit one ad by its id
 exports.edit = async (req, res) => {
+	console.log('jestem')
+
 	try {
 		let { title, text, date, location, user, price } = req.body
-		console.log(req.body);
-		console.log(req.file)
 		title = escape(title)
 		text = escape(text)
 		location = escape(location)
 		const src = req.file.filename
-		console.log('source:', src)
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknokwn'
 		const id = req.params.id
 
@@ -107,10 +107,9 @@ exports.edit = async (req, res) => {
 		}
 		// change ad if data validated
 		if (ad && validateAds(title, text, date, location, user, price, fileType)) {
-			console.log('jestem')
 			await ad.updateOne({ $set: { title, text, date, src, location, user, price } })
 			res.send({ message: 'Ad changed' })
-		}
+		} else res.status(500).json('validation failed')
 	} catch (err) {
 		res.status(500).json(err + '')
 	}
