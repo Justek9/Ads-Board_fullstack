@@ -1,4 +1,7 @@
 // selectors
+export const getUser = ({ user }) => {
+	return user
+}
 
 // actions
 const createActionName = actionName => `app/users/${actionName}`

@@ -33,12 +33,12 @@ exports.getBySearchPhrase = async (req, res) => {
 		const ads = await Ads.find({
 			$or: [
 				{ title: { $regex: searchParams, $options: 'i' } },
-				{ content: { $regex: searchParams, $options: 'i' } },
+				{ text: { $regex: searchParams, $options: 'i' } },
 				{ location: { $regex: searchParams, $options: 'i' } },
 			],
 		}).populate('user')
 
-		res.send(ads)
+		res.json(ads)
 	} catch (err) {
 		res.status(500).json(err + '')
 	}

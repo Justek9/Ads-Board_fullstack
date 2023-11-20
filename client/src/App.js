@@ -11,6 +11,7 @@ import EditAdForm from './components/features/EditAdForm'
 import LoginForm from './components/features/LoginForm'
 import Logout from './components/features/Logout'
 import RegisterForm from './components/features/RegisterForm'
+import SearchPage from './components/pages/SearchPage'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -29,6 +30,8 @@ const App = () => {
 				<Route path='login' element={<LoginForm />}></Route>
 				<Route path='logout' element={<Logout />}></Route>
 				<Route path='register' element={<RegisterForm />}></Route>
+				<Route  path={'/search/:searchPhrase'} element={<SearchPage/>} />
+
 			</Routes>
 		</Container>
 	)

@@ -11,7 +11,7 @@ const AdSummary = ({ ad }) => {
 			<Card.Body>
 				<Card.Title>{ad.title}</Card.Title>
 				<Card.Text>{ad.location}</Card.Text>
-				<Button variant='secondary' as={NavLink} to={`api/ads/${ad._id}`}>
+				<Button variant='secondary' as={NavLink} to={`/api/ads/${ad._id}`}>
 					Read more
 				</Button>
 			</Card.Body>
