@@ -40,9 +40,11 @@ export const deleteAdRequest = id => {
 					dispatch(deleteAd(id))
 				}
 			})
+			.then(dispatch(fetchAds()))
 			.catch(error => {
 				dispatch(setLoading(false))
-				dispatch(setError(true))			})
+				dispatch(setError(true))
+			})
 	}
 }
 export const fetchAds = () => {
