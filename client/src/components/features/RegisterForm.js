@@ -28,6 +28,10 @@ const RegisterForm = () => {
 			.then(res => {
 				if (res.status === 201) {
 					setStatus('success')
+					setLogin('')
+					setPassword('')
+					setAvatar('')
+					setTelNumber('')
 				} else if (res.status === 400) {
 					setStatus('clientError')
 				} else if (res.status === 409) {

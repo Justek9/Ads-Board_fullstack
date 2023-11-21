@@ -26,7 +26,6 @@ export const addAd = payload => ({ type: ADD_AD, payload })
 
 export const deleteAdRequest = id => {
 	return dispatch => {
-		console.log(`${API_URL}/ads/${id}`)
 		const options = {
 			method: 'DELETE',
 			headers: {
@@ -40,7 +39,6 @@ export const deleteAdRequest = id => {
 					dispatch(deleteAd(id))
 				}
 			})
-			.then(dispatch(fetchAds()))
 			.catch(error => {
 				dispatch(setLoading(false))
 				dispatch(setError(true))
