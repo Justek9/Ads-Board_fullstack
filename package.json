@@ -6,7 +6,8 @@
 	"scripts": {
 		"start": "npm-run-all -l -p start:*",
 		"start:server": "nodemon server.js",
-		"start:client": "cd client && yarn start"
+		"start:client": "cd client && yarn start",
+		"build": "react-scripts build"
 	},
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
