@@ -44,8 +44,7 @@ const AddAndEditForm = ({ action, ...props }) => {
 		const options = {
 			method: action === 'Add' ? 'POST' : 'PUT',
 			body: fd,
-			credentials: 'include'
-
+			credentials: 'include',
 		}
 		fetch(action === 'Add' ? `${API_URL}/ads` : `${API_URL}/edit/${props.id}`, options)
 			.then(res => {
@@ -83,7 +82,14 @@ const AddAndEditForm = ({ action, ...props }) => {
 
 			<Form.Group className='mb-3 d-flex flex-row align-items-center justify-content-between'>
 				<Form.Label>Title</Form.Label>
-				<Form.Control aria-label='Title' className='w-75' value={title} onChange={e => setTitle(e.target.value)} />
+				<Form.Control
+					aria-label='Title'
+					className='w-75'
+					value={title}
+					onChange={e => setTitle(e.target.value)}
+					minLength={10}
+					maxLength={50}
+				/>
 			</Form.Group>
 			<Form.Group className='mb-3 d-flex flex-row align-items-center justify-content-between'>
 				<Form.Label>Description</Form.Label>
@@ -95,6 +101,8 @@ const AddAndEditForm = ({ action, ...props }) => {
 					aria-label='Description'
 					value={text}
 					onChange={e => setText(e.target.value)}
+					minLength={20}
+					maxLength={1000}
 				/>
 			</Form.Group>
 			<Form.Group className='mb-3 d-flex flex-row align-items-center justify-content-between'>
