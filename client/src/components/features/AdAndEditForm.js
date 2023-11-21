@@ -1,11 +1,10 @@
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
+import { Alert, Spinner, Form, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchAds } from '../../redux/adsRedux'
+import { getUser } from '../../redux/userRedux'
 import { API_URL } from '../../config'
-import { Alert, Spinner } from 'react-bootstrap'
 
 const AddAndEditForm = ({ action, ...props }) => {
 	const [title, setTitle] = useState(props.title || '')
@@ -15,8 +14,8 @@ const AddAndEditForm = ({ action, ...props }) => {
 	const [image, setImage] = useState(null)
 	const [status, setStatus] = useState(null)
 	// null, 'loading', 'success', 'serverError',
-	const date = new Date()
-	const user = '6559b05a19363e4b65f20de1'
+
+	const loggedUserId = useSelector(getUser).id
 
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -25,7 +24,7 @@ const AddAndEditForm = ({ action, ...props }) => {
 		setTimeout(() => {
 			setStatus(null)
 			navigate('/')
-		}, 3000)
+		}, 2000)
 	}
 
 	const handleSubmit = event => {
@@ -39,12 +38,14 @@ const AddAndEditForm = ({ action, ...props }) => {
 		fd.append('price', price)
 		fd.append('location', location)
 		fd.append('src', image)
-		fd.append('date', date)
-		fd.append('user', user)
+		fd.append('date', new Date())
+		fd.append('user', loggedUserId)
 
 		const options = {
 			method: action === 'Add' ? 'POST' : 'PUT',
 			body: fd,
+			credentials: 'include'
+
 		}
 		fetch(action === 'Add' ? `${API_URL}/ads` : `${API_URL}/edit/${props.id}`, options)
 			.then(res => {
@@ -56,7 +57,7 @@ const AddAndEditForm = ({ action, ...props }) => {
 					setStatus('serverError')
 				}
 			})
-			.catch(err => setStatus('serverError'))
+			.catch(() => setStatus('serverError'))
 	}
 
 	return (
@@ -110,7 +111,7 @@ const AddAndEditForm = ({ action, ...props }) => {
 			</Form.Group>
 
 			<Button variant='success' type='submit'>
-				{action}
+				Confirm
 			</Button>
 		</Form>
 	)

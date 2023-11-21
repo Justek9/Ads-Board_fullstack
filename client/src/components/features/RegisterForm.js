@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import { Alert, Spinner } from 'react-bootstrap'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
+import { Alert, Spinner, Button, Form } from 'react-bootstrap'
 import { API_URL } from '../../config'
 
 const RegisterForm = () => {
@@ -81,7 +79,13 @@ const RegisterForm = () => {
 
 			<Form.Group className='mb-3' controlId='formLogin'>
 				<Form.Label>Login</Form.Label>
-				<Form.Control type='text' value={login} onChange={e => setLogin(e.target.value)} placeholder='Enter login' />
+				<Form.Control
+					type='text'
+					value={login}
+					onChange={e => setLogin(e.target.value)}
+					placeholder='Enter login'
+					required
+				/>
 			</Form.Group>
 
 			<Form.Group className='mb-3' controlId='formPassword'>
@@ -91,12 +95,13 @@ const RegisterForm = () => {
 					value={password}
 					onChange={e => setPassword(e.target.value)}
 					placeholder='Enter password'
+					required
 				/>
 			</Form.Group>
 
 			<Form.Group className='mb-3' controlId='formAvatar'>
 				<Form.Label>Avatar</Form.Label>
-				<Form.Control type='file' onChange={e => setAvatar(e.target.files[0])} />
+				<Form.Control type='file' onChange={e => setAvatar(e.target.files[0])} required />
 			</Form.Group>
 
 			<Form.Group className='mb-3' controlId='formTelephone'>
@@ -106,6 +111,7 @@ const RegisterForm = () => {
 					value={tel}
 					onChange={e => setTelNumber(e.target.value)}
 					placeholder='Telephone number'
+					required
 				/>
 			</Form.Group>
 

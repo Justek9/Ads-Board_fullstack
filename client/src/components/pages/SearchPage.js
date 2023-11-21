@@ -21,12 +21,11 @@ const SearchPage = () => {
 					setStatus('serverError')
 				} else {
 					setStatus('')
-
 					return res.json()
 				}
 			})
 			.then(ads => setAdsToShow(ads))
-			.catch(err => setStatus('serverError'))
+			.catch(() => setStatus('serverError'))
 	}, [searchPhrase])
 	if (adsToShow.length === 0) return <p>Nothing matches your search....</p>
 
@@ -46,7 +45,7 @@ const SearchPage = () => {
 				</Alert>
 			)}
 
-			<div className='d-flex justify-content-between flex-wrap mt-4'>
+			<div className='d-flex justify-content-start flex-wrap mt-4'>
 				{adsToShow.map((ad, i) => (
 					<AdSummary key={i} ad={ad}></AdSummary>
 				))}

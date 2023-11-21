@@ -15,7 +15,7 @@ export const loginUser = payload => ({
 	payload,
 })
 
-export const logOut = payload => ({
+export const logOut = () => ({
 	type: LOG_OUT,
 })
 

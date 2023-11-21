@@ -31,7 +31,7 @@ const LoginForm = () => {
 			.then(res => {
 				if (res.status === 200) {
 					setStatus('success')
-					navigate('/')
+					return res.json()
 				} else if (res.status === 400) {
 					setStatus('clientError')
 				} else if (res.status === 401) {
@@ -40,22 +40,12 @@ const LoginForm = () => {
 					setStatus('serverError')
 				}
 			})
-			.catch(err => setStatus('serverError'))
-
-		const options2 = {
-			method: 'GET',
-		}
-
-		fetch(`${API_URL}/auth/user`, options2)
-			.then(res => {
-				return res.json()
-			})
 			.then(user => {
 				dispatch(loginUser(user))
+				setStatus('success')
+				navigate('/')
 			})
-			.catch(error => {
-				console.error(error)
-			})
+			.catch(err => console.log(err))
 	}
 
 	return (
@@ -71,7 +61,7 @@ const LoginForm = () => {
 			{status === 'serverError' && (
 				<Alert variant='danger'>
 					<Alert.Heading>Something went wrong...</Alert.Heading>
-					<p>Unexpected error...Try again!.</p>
+					<p>Try again!.</p>
 				</Alert>
 			)}
 

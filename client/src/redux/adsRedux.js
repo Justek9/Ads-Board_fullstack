@@ -1,4 +1,6 @@
 import { API_URL } from '../config'
+import { setError } from './errorRedux'
+import { setLoading } from './isLoadingRedux'
 
 // selectors
 export const getAllAds = ({ ads }) => {
@@ -30,28 +32,33 @@ export const deleteAdRequest = id => {
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
 			},
+			credentials: 'include',
 		}
 		fetch(`${API_URL}/ads/${id}`, options)
-			.then(() => {
-				dispatch(deleteAd(id))
+			.then(res => {
+				if (res.status === 200) {
+					dispatch(deleteAd(id))
+				}
 			})
-
 			.catch(error => {
-				console.error(error)
-			})
+				dispatch(setLoading(false))
+				dispatch(setError(true))			})
 	}
 }
 export const fetchAds = () => {
 	return dispatch => {
+		dispatch(setLoading(true))
 		fetch(`${API_URL}/ads`)
 			.then(res => {
 				return res.json()
 			})
 			.then(ads => {
+				dispatch(setLoading(false))
 				dispatch(loadAds(ads))
 			})
 			.catch(error => {
-				console.error(error)
+				dispatch(setLoading(false))
+				dispatch(setError(true))
 			})
 	}
 }

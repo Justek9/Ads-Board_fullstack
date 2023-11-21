@@ -58,7 +58,7 @@ exports.login = async (req, res) => {
 						id: user._id,
 						avatar: user.avatar,
 					}
-					res.status(200).send({ message: 'Login successful' })
+					res.status(200).json(req.session.user)
 				} else {
 					res.status(401).send({ message: 'Login or password is incorrect' })
 				}

@@ -15,7 +15,6 @@ const authMiddleware = (req, res, next) => {
 					login: sessionData.user.login,
 					avatar: sessionData.user.avatar,
 				}
-
 				req.session.user = user
 				req.sessionID = session._id
 				return next()

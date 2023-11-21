@@ -12,6 +12,7 @@ import LoginForm from './components/features/LoginForm'
 import Logout from './components/features/Logout'
 import RegisterForm from './components/features/RegisterForm'
 import SearchPage from './components/pages/SearchPage'
+import NotFound from './components/pages/NotFound'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -30,8 +31,8 @@ const App = () => {
 				<Route path='login' element={<LoginForm />}></Route>
 				<Route path='logout' element={<Logout />}></Route>
 				<Route path='register' element={<RegisterForm />}></Route>
-				<Route  path={'/search/:searchPhrase'} element={<SearchPage/>} />
-
+				<Route path={'/search/:searchPhrase'} element={<SearchPage />} />
+				<Route path='/*' element={<NotFound />}></Route>
 			</Routes>
 		</Container>
 	)
