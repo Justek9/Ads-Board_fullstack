@@ -1,10 +1,11 @@
 import { Alert, Spinner, Form, Button } from 'react-bootstrap'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAds } from '../../redux/adsRedux'
 import { getUser } from '../../redux/userRedux'
 import { API_URL } from '../../config'
+import styles from './AddAndEditForm.module.scss'
 
 const AddAndEditForm = ({ action, ...props }) => {
 	const [title, setTitle] = useState(props.title || '')
@@ -12,6 +13,7 @@ const AddAndEditForm = ({ action, ...props }) => {
 	const [price, setPrice] = useState(props.price || '')
 	const [location, setLocation] = useState(props.location || '')
 	const [image, setImage] = useState(null)
+	const [imagePreview, setImagePreview] = useState(null)
 	const [status, setStatus] = useState(null)
 	// null, 'loading', 'success', 'serverError',
 
@@ -27,8 +29,18 @@ const AddAndEditForm = ({ action, ...props }) => {
 		}, 2000)
 	}
 
-	const handleSubmit = event => {
-		event.preventDefault()
+	const handleImageChange = e => {
+		let image = e.target.files[0]
+
+		setImage(image)
+
+		if (image) {
+			setImagePreview(URL.createObjectURL(image))
+		}
+	}
+
+	const handleSubmit = e => {
+		e.preventDefault()
 
 		setStatus('loading')
 
@@ -58,6 +70,8 @@ const AddAndEditForm = ({ action, ...props }) => {
 			})
 			.catch(() => setStatus('serverError'))
 	}
+
+	if (action === 'Edit' && !props.id) return <Navigate to='/' />
 
 	return (
 		<Form onSubmit={handleSubmit}>
@@ -114,9 +128,18 @@ const AddAndEditForm = ({ action, ...props }) => {
 				<Form.Control type='number' className='w-75' value={price} onChange={e => setPrice(e.target.value)} />
 			</Form.Group>
 			<Form.Group className='mb-3 d-flex flex-row align-items-center justify-content-between'>
-				<Form.Label className='mr-2'>Img:</Form.Label>
-				<Form.Control type='file' className='w-75' onChange={e => setImage(e.target.files[0])} />
+				<Form.Label className='mr-2'>Photo:</Form.Label>
+				<Form.Control type='file' className='w-75' onChange={e => handleImageChange(e)} />
 			</Form.Group>
+			<div className='mb-3 d-flex flex-row align-items-center justify-content-between'>
+				{image && <Form.Label className='mr-2'>Preview:</Form.Label>}
+
+				{image && (
+					<div className='w-75'>
+						<img src={imagePreview} alt='uploaded' className={styles.image}></img>
+					</div>
+				)}
+			</div>
 
 			<Button variant='success' type='submit'>
 				Confirm

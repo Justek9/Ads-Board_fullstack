@@ -52,7 +52,6 @@ exports.add = async (req, res) => {
 		text = escape(text)
 		location = escape(location)
 		const src = req.file.filename
-		console.log(req.file.filename)
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknokwn'
 		price = Number(price)
 

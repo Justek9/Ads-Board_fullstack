@@ -6,7 +6,6 @@ const connectToDB = () => {
 	const uriDev = 'mongodb://0.0.0.0:27017/adsBoard'
 
 	// connect to DB
-
 	mongoose.connect(uriProd, { useNewUrlParser: true, useUnifiedTopology: true })
 	const db = mongoose.connection
 
