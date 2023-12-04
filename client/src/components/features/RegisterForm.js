@@ -1,14 +1,23 @@
 import { useState } from 'react'
 import { Alert, Spinner, Button, Form } from 'react-bootstrap'
 import { API_URL } from '../../config'
+import styles from './RegisterForm.module.scss'
 
 const RegisterForm = () => {
 	const [login, setLogin] = useState('')
 	const [password, setPassword] = useState('')
 	const [avatar, setAvatar] = useState(null)
+	const [avatarPreview, setAvatarPreview] = useState(null)
 	const [tel, setTelNumber] = useState('')
 	const [status, setStatus] = useState(null)
 	// null, 'loading', 'success', 'serverError', 'clientError', 'loginError'
+
+	const avatarChangeHandler = e => {
+		const avatarImg = e.target.files[0]
+
+		setAvatar(avatarImg)
+		setAvatarPreview(URL.createObjectURL(avatarImg))
+	}
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -105,8 +114,13 @@ const RegisterForm = () => {
 
 			<Form.Group className='mb-3' controlId='formAvatar'>
 				<Form.Label>Avatar</Form.Label>
-				<Form.Control type='file' onChange={e => setAvatar(e.target.files[0])} required />
+				<Form.Control type='file' onChange={e => avatarChangeHandler(e)} required />
 			</Form.Group>
+
+			<div className='mb-3'>
+				{avatarPreview && <Form.Label>Avatar preview</Form.Label>}
+				{avatarPreview && <img src={avatarPreview} alt='avatar' className={styles.avatar}></img>}
+			</div>
 
 			<Form.Group className='mb-3' controlId='formTelephone'>
 				<Form.Label>Telephone no.</Form.Label>
